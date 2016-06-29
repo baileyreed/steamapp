@@ -13,10 +13,11 @@
     "angular-sanitize": "~1.5.0",
     "angular-bootstrap": "~1.1.2",
     "font-awesome": ">=4.1.0",
-    "lodash": "~2.4.1",
+    "lodash": "~3.7.0",
     "angular-ui-router": "~0.2.15",
     "angular-validation-match": "~1.5.2",
-    "decksterjs": "https://github.com/DecksterTeam/DecksterJS.git#^0.2.28"
+    "decksterjs": "https://github.com/DecksterTeam/DecksterJS.git#^0.2.28",
+    "bootstrap-table": "^1.10.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0"

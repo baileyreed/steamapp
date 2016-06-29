@@ -1,100 +1,100 @@
 <div>
   This is custom summary template should do cool things
-  <div>{{$scope.items}}</div>
-  <div>{{items}}</div>
-  <div>{{this.items}}</div>
+  <!--<div>{{$scope.items}}</div>-->
+  <!--<div>{{items}}</div>-->
+  <!--<div>{{this.items}}</div>-->
   <p class="content">Fun text!</p>
 
   <!--<script type="application/javascript" src="http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10"></script>-->
 
 
-  <script>
-$(document).ready(function() {
+  <!--<script>-->
+<!--$(document).ready(function() {-->
 
-  console.log("about to use ajax");
+  <!--console.log("about to use ajax");-->
 
-    $.ajax({
-      type: 'GET',
-      url: "http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10",
-      processData: true,
-      data: {},
-      dataType: "json",
-      success: function (data) {
-        console.log("about to process data");
-        processData(data);
-      }
-    });
+    <!--$.ajax({-->
+      <!--type: 'GET',-->
+      <!--url: "http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10",-->
+      <!--processData: true,-->
+      <!--data: {},-->
+      <!--dataType: "json",-->
+      <!--success: function (data) {-->
+        <!--console.log("about to process data");-->
+        <!--processData(data);-->
+      <!--}-->
+    <!--});-->
 
-    function processData(data){
-      console.log("processing data");
-      console.log(data.batchcomplete);
-    }
+    <!--function processData(data){-->
+      <!--console.log("processing data");-->
+      <!--console.log(data.batchcomplete);-->
+    <!--}-->
 
-})
+<!--})-->
 
-//    $(document).ready(function(){
-//
-//      console.log("thing loaded");
-//
-//      // get selected zip code from selectbox
-//      //var zip = $('select option:selected').text().substring(1, 6);
-//
-//      // make the AJAX request
-//      $.getJSON('http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10', function(data) {
-//
-//        console.log(data);
-//        // do all this on success
-//        var items = [],
-//          $ul;
-//
-//        var message = "this is a message";
-//
-//        items = data;
-//        //console.log({{data}});
-//        console.log("loading data");
-//        console.log(message);
-//        console.log(data.batchcomplete);
-//        items.appendTo('.content');
-
-
-        //<!--$.each(data, function(key, val) {-->
-         // <!--iterate through the returned data and build a list-->
-         // <!--items.push(<li )-->
-        //  <!--items.push('<li id="' + key + '"><span class="name">' + val.batchcomplete + '</span><br><span class="addr">' + val.principaladdress1 + '</span> <span class="city">' + val.principalcity + '</span></li>');-->
-       // <!--});-->
-        //<!--// if no items were returned then add a message to that effect-->
-        //<!--if (items.length < 1) {-->
-        //  <!--items.push('<li>No results for this ZIP code, try again!</li>');-->
-        //<!--}-->
+<!--//    $(document).ready(function(){-->
+<!--//-->
+<!--//      console.log("thing loaded");-->
+<!--//-->
+<!--//      // get selected zip code from selectbox-->
+<!--//      //var zip = $('select option:selected').text().substring(1, 6);-->
+<!--//-->
+<!--//      // make the AJAX request-->
+<!--//      $.getJSON('http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10', function(data) {-->
+<!--//-->
+<!--//        console.log(data);-->
+<!--//        // do all this on success-->
+<!--//        var items = [],-->
+<!--//          $ul;-->
+<!--//-->
+<!--//        var message = "this is a message";-->
+<!--//-->
+<!--//        items = data;-->
+<!--//        //console.log({{data}});-->
+<!--//        console.log("loading data");-->
+<!--//        console.log(message);-->
+<!--//        console.log(data.batchcomplete);-->
+<!--//        items.appendTo('.content');-->
 
 
-        //<!--// append list to page-->
-        //<!--$ul = $('<ul />').appendTo('.content');-->
+        <!--//&lt;!&ndash;$.each(data, function(key, val) {&ndash;&gt;-->
+         <!--// &lt;!&ndash;iterate through the returned data and build a list&ndash;&gt;-->
+         <!--// &lt;!&ndash;items.push(<li )&ndash;&gt;-->
+        <!--//  &lt;!&ndash;items.push('<li id="' + key + '"><span class="name">' + val.batchcomplete + '</span><br><span class="addr">' + val.principaladdress1 + '</span> <span class="city">' + val.principalcity + '</span></li>');&ndash;&gt;-->
+       <!--// &lt;!&ndash;});&ndash;&gt;-->
+        <!--//&lt;!&ndash;// if no items were returned then add a message to that effect&ndash;&gt;-->
+        <!--//&lt;!&ndash;if (items.length < 1) {&ndash;&gt;-->
+        <!--//  &lt;!&ndash;items.push('<li>No results for this ZIP code, try again!</li>');&ndash;&gt;-->
+        <!--//&lt;!&ndash;}&ndash;&gt;-->
 
-        //<!--//append list items to list-->
-        //<!--$ul.append(items);-->
-      //});
 
-    //})
+        <!--//&lt;!&ndash;// append list to page&ndash;&gt;-->
+        <!--//&lt;!&ndash;$ul = $('<ul />').appendTo('.content');&ndash;&gt;-->
+
+        <!--//&lt;!&ndash;//append list items to list&ndash;&gt;-->
+        <!--//&lt;!&ndash;$ul.append(items);&ndash;&gt;-->
+      <!--//});-->
+
+    <!--//})-->
 
 
-//    var jsonData;
-////    $.getJSON('http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json', function(data) {
-////      jsonData = data;
-////    });
-//    $.ajax( {
-//      type: 'GET',
-//      dataType: 'jsonp',
-//      data: {},
-//      crossDomain: 'true',
-//      url: "http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10",
-//      error: function(textStatus, errorThrown) {
-//        alert("error");
-//      },
-//      success: function(msg) {
-//        console.log(msg);
-//      }
-//    });
+<!--//    var jsonData;-->
+<!--////    $.getJSON('http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json', function(data) {-->
+<!--////      jsonData = data;-->
+<!--////    });-->
+<!--//    $.ajax( {-->
+<!--//      type: 'GET',-->
+<!--//      dataType: 'jsonp',-->
+<!--//      data: {},-->
+<!--//      crossDomain: 'true',-->
+<!--//      url: "http://en.wikipedia.org/w/api.php?action=query&list=backlinks&bltitle=Star%20Wars&bllimit=10",-->
+<!--//      error: function(textStatus, errorThrown) {-->
+<!--//        alert("error");-->
+<!--//      },-->
+<!--//      success: function(msg) {-->
+<!--//        console.log(msg);-->
+<!--//      }-->
+<!--//    });-->
 
-  </script>
+  <!--</script>-->
 </div>

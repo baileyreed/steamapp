@@ -1,0 +1,211 @@
+a.table-export-btn {
+  color: #7c909d;
+  font-size: 19px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  float: right;
+  top: 13px;
+  margin-left: -15px;
+  margin-right: 15px;
+}
+
+.pagination-detail {
+  padding-left:20px;
+  color: #979797;
+}
+
+.fixed-table-pagination {
+  position: relative;
+}
+
+.fixed-table-pagination li.disabled a {
+  background-color: #353535;
+  border:1px solid #808080;
+  .light-theme & {
+    background-color: #fff;
+  }
+}
+
+.pagination {
+  li {
+    .page-last-separator {
+      background-color: #353535;
+      color: #a9a9a9;
+    }
+
+    a {
+      background-color: #353535;
+      border: 1px solid #6B6B6B;
+      color: #a9a9a9;
+      &:hover {
+        background-color: #545454;
+        color: #a9a9a9;
+      }
+    }
+  }
+  .active {
+    a {
+      background-color: #545454;
+      border-color: $orange;
+      color: #fff;
+      &:hover {
+        background-color: #b4c5d0;
+      }
+    }
+  }
+  .light-theme & {
+    li {
+      a {
+        color: #949494;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        &:hover {
+          background-color: #F1F1F1;
+        }
+      }
+    }
+    .active {
+      a {
+        background-color: $orange;
+        border-color: #D6B7AE;
+        color: white;
+        &:hover {
+          background-color: $orange;
+        }
+      }
+    }
+  }
+}
+
+.bootstrap-table {
+  background: transparent;
+  .fixed-table-container {
+    background-repeat: no-repeat;
+    background-position: right;
+    border: none;
+
+    .th-inner {
+      font-family: 'Museo Sans', Arial, sans-serif;
+      font-weight: normal;
+      text-transform: uppercase;
+      /* white-space: nowrap; */
+      color: #888;
+      font-weight: 500;
+    }
+
+    .pull-right {
+      padding-right: 30px
+    }
+  }
+  tbody {
+
+    tr {
+      border-bottom: 1px solid #2b2b2b;
+
+      > td {
+        border: none;
+
+        color: #fff;
+      }
+      &:last-child {
+        border: none;
+      }
+    }
+    tr:nth-child(odd), tr:nth-child(even) {
+
+      > td {
+        background: #fff;
+      }
+    }
+    > tr.hover, > tr:hover, > tr:nth-child(even):hover, > tr:nth-child(odd):hover {
+
+      > td {
+        background: #ebebeb; // background for non-hovering parts of
+      }
+    }
+  }
+  .table {
+    border-bottom: none;
+    thead {
+      tr {
+        border-bottom: 1px solid #f4f4f4;
+        th {
+          font-weight: 500;
+          color: #B3B3B3;
+          padding-right: 0px;
+          border-bottom: 1px solid $light-grey;
+          height: 50px;
+          border-left: none;
+          background: #fff;
+
+          // th EDITS PER TABLE CARD CARD
+
+
+
+          &:first-child {
+            padding-left:4px;
+          }
+        }
+      }
+    }
+    tbody {
+      tr {
+        border-bottom: 1px solid #f4f4f4;
+        td {
+          font-weight: 500;
+          border-left: 1px solid #f4f4f4;
+          color: $table-data;
+          border-left: none;
+          &:hover {
+            background-color: $light-grey;
+          }
+          &:first-child {
+            padding-left: 12px !important;
+          }
+
+
+          // td EDITS PER TABLE CARD CARD
+
+
+
+
+          }
+        }
+      }
+    }
+  }
+
+
+// .transposed is for cards that show | title data | title data | title data - Just add .transposed to the card class
+
+.transposed {
+  tbody {
+    tr {
+      td {
+        &:nth-child(odd) {
+          color: $table-ylabel;
+          width: 200px;
+        }
+        &:nth-child(even) {
+          color: $table-data;
+          width: 200px;
+          border-right: 1px solid $light-grey;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+.fixed-table-body {
+  //background-color: #fff;
+}
+
+
+.bootstrap-table .table:not(.table-condensed), .bootstrap-table .table:not(.table-condensed) > tbody > tr > th, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > th, .bootstrap-table .table:not(.table-condensed) > thead > tr > td, .bootstrap-table .table:not(.table-condensed) > tbody > tr > td, .bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
+  padding: 14px 10px 14px 12px;
+
+}

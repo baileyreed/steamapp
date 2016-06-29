@@ -4,7 +4,7 @@
 
   class MainController {
 
-    constructor($http, $scope, $compile, $timeout, Auth) {
+    constructor($http, $scope, $compile, $timeout, Auth, Card) {
       this.$http = $http;
       this.$compile = $compile;
       this.$timeout = $timeout;
@@ -83,18 +83,25 @@
             row: 1
           }
         },
-        {
+        new Card({
           title: 'Table Data',
           id: 'tableCard',
-          summaryContentHtml: getSummaryTemplate,
-          detailsContentHtml: getDetailsTemplate,
+          summaryViewType: "table",
+          summaryViewOptions: {
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 2,
+            apiUrl: "/api/steam/news"
+          },
           position: {
             size_x: 1,
             size_y: 2,
             col: 1,
             row: 2
           }
-        },
+        }),
         {
           title: 'Timeline',
           id: 'timelineCard',

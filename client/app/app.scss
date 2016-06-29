@@ -15,10 +15,30 @@ $fa-font-path: "../bower_components/font-awesome/fonts";
   padding: 0.2em 0;
 }
 
+$dark-grey: #353535;
+$csc-red: #ec292f;
+$blue: #3AA3BF;
+$in-active: rgba(255, 255, 255, 0.25);
+$light-grey: #F5F5F5;
+$medium-grey: lighten($dark-grey, 40%);
+
+$table-ylabel: darken($medium-grey, 10%);
+$table-data: $dark-grey;
+
+$sidebar-bg: $dark-grey;
+$main-bg: $light-grey;
+
+$orange: #e67447;
+$dkorange: #b33e17;
+$bluegrey: #27333A;
+$buttongrey: #586b75;
+
 // Component styles are injected through grunt
 /* inject:scss */
 @import 'admin/admin';
 @import 'main/main';
+@import '../components/deckster/deckster';
+@import '../components/deckster/views/table/table';
 @import '../components/footer/footer';
 @import '../components/modal/modal';
 @import '../components/oauth-buttons/oauth-buttons';
