@@ -6,6 +6,10 @@ var controller = require('./steam.controller');
 var router = express.Router();
 
 router.get('/news', controller.news);
+router.get('/friends', controller.friends);
+router.get('/profile', controller.profile);
+//router.get('/friendProfiles', controller.friendProfiles);
+//router.get('/myGames', controller.myGames);
 // router.get('/:id', controller.show);
 // router.post('/', controller.create);
 // router.put('/:id', controller.update);

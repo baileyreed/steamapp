@@ -23,6 +23,7 @@
       card[currentView + 'TableId'] = card.options.id + currentView + viewIdSuffix;
       card[currentView + 'TablePaginationId'] = card.options.id + currentView + '-tablePagination';
 
+      console.log("looking to get current view options");
       var viewOptions = card.options.getCurrentViewOptions(currentView);
       var numColumns = viewOptions.numColumns; //must be an even number if transpose is true
 
@@ -82,6 +83,7 @@
             ajax: function (request) {
               $.ajax(request);
             },
+
             responseHandler: function (result) {
 
               if(cardOptions.preDataTransform) {
@@ -144,7 +146,8 @@
                   var row = [];
                   _.each(values, function (value, key) {
                     var dataFormatter = getFormatter(['dataFormats', key], 'titleKeepSymbols');
-                    row[key] = dataFormatter(value);
+                    //row[key] = dataFormatter(value); // makes avatars all weird and formats text
+                    row[key] = value;
                   });
                   rows.push(row);
                 });

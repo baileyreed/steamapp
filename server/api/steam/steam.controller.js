@@ -9,116 +9,80 @@
 
 'use strict';
 
+
+
 var Client = require('node-rest-client').Client;
 
 var client = new Client();
 
-//edit in here
-//
 var _ = require('lodash');
 
-// function respondWithResult(res, statusCode) {
-//   statusCode = statusCode || 200;
-//   return function(entity) {
-//     if (entity) {
-//       res.status(statusCode).json(entity);
-//     }
-//   };
-// }
-//
-// function saveUpdates(updates) {
-//   return function(entity) {
-//     var updated = _.merge(entity, updates);
-//     return updated.save()
-//       .then(updated => {
-//         return updated;
-//       });
-//   };
-// }
-//
-// function removeEntity(res) {
-//   return function(entity) {
-//     if (entity) {
-//       return entity.remove()
-//         .then(() => {
-//           res.status(204).end();
-//         });
-//     }
-//   };
-// }
-//
-// function handleEntityNotFound(res) {
-//   return function(entity) {
-//     if (!entity) {
-//       res.status(404).end();
-//       return null;
-//     }
-//     return entity;
-//   };
-// }
-//
-// function handleError(res, statusCode) {
-//   statusCode = statusCode || 500;
-//   return function(err) {
-//     res.status(statusCode).send(err);
-//   };
-// }
-//
+
+var apiKey = "D93991D6DF3EA0044F99AFAA9FF9A45B";
+var profileId = "76561198202153900";
+
 export function news(req, res) {
   client.get("http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json", function (data, response) {
-    console.log(data);
-    //console.log(response);
     var news = _.get(data, 'appnews.newsitems', []);
     news = _.map(news, function(item) {
       return {
         'title': '<a href="' + item.url + '">' + item.title + '</a>',
-        'description':item.contents
+        'description': item.contents
       }
     });
     res.json({rows: news});
   })
 }
 
+export function friends(req, res) {
+  client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
+    var friendList = _.get(data, 'friendslist.friends', []);
+    var steamIds = _.map(friendList, function(friend) {
+       return friend.steamid;
+    }).join(",");
+    client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + steamIds, function (data, response) {
+      friendList = _.get(data, 'response.players', []);
+      friendList = _.map(friendList, function(friend) {
+        return {
+          "name": friend.personaname,
+          "avatar": '<img src="' + friend.avatarmedium + '" alt="profile picture" style="width:128;height:128;">'
+        }
+      });
+      res.json({rows: friendList});
+    })
+  })
+}
 
 //
-// // Gets a list of Steams
-// export function index(req, res) {
-//   return Steam.find().exec()
-//     .then(respondWithResult(res))
-//     .catch(handleError(res));
-// }
+// export function friendProfiles(req, res) {
+//   client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
+//     var friendList = _.get(data, 'friendslist.friends', []);
+//     var steamIds = _.map(friendList, function(friend) {
+//       return friend.steamid;
+//     }).join(",");
 //
-// // Gets a single Steam from the DB
-// export function show(req, res) {
-//   return Steam.findById(req.params.id).exec()
-//     .then(handleEntityNotFound(res))
-//     .then(respondWithResult(res))
-//     .catch(handleError(res));
-// }
+//     client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + steamIds, function (data, response) {
 //
-// // Creates a new Steam in the DB
-// export function create(req, res) {
-//   return Steam.create(req.body)
-//     .then(respondWithResult(res, 201))
-//     .catch(handleError(res));
+//       friendList = _.get(data, 'response.players', []);
+//       friendList = _.map(friendList, function(friend) {
+//         console.log(friendList.length)
+//         return {
+//           "name": friend.personaname,
+//           "avatar": '<img src="' + friend.avatarmedium + '" alt="profile picture" style="width:128;height:128;">'
+//         }
+//       });
+//       res.json({rows: friendList}); // pass profile info here
+//     })
+//   })
 // }
-//
-// // Updates an existing Steam in the DB
-// export function update(req, res) {
-//   if (req.body._id) {
-//     delete req.body._id;
-//   }
-//   return Steam.findById(req.params.id).exec()
-//     .then(handleEntityNotFound(res))
-//     .then(saveUpdates(req.body))
-//     .then(respondWithResult(res))
-//     .catch(handleError(res));
-// }
-//
-// // Deletes a Steam from the DB
-// export function destroy(req, res) {
-//   return Steam.findById(req.params.id).exec()
-//     .then(handleEntityNotFound(res))
-//     .then(removeEntity(res))
-//     .catch(handleError(res));
-// }
+
+      //TODO: get profile pictures working
+export function profile(req, res) {
+  client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + profileId, function (data, response) {
+    var profile = _.get(data, 'response.players', []);
+    var modProfile = [];
+    modProfile[0] = {"Your profile":'<h3><a href="' + profile[0].profileurl + '">' + profile[0].personaname + '</h3>'};
+    modProfile[1] = {"Your profile":'<img src="' + profile[0].avatarmedium + '" alt="profile picture" style="width:128;height:128;">'};
+    res.json({rows: modProfile});
+  });
+}

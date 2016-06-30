@@ -46,19 +46,26 @@
 
 
       this.deck.cards = [
-        {
-          title: 'Photos',
+        new Card({
+          title: 'Your Profile',
           id: 'photoCard',
-          hasPopout: true,
-          summaryContentHtml: getSummaryTemplate,
-          detailsContentHtml: getDetailsTemplate,
+          summaryViewType: "table",
+          summaryViewOptions: {
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 1,
+            apiUrl: "/api/steam/profile"
+          },
           position: {
             size_x: 1,
             size_y: 1,
             col: 1,
             row: 1
           }
-        },
+
+        }),
         {
           title: 'Alerts',
           id: 'alertsCard',
@@ -66,25 +73,13 @@
           detailsContentHtml: getDetailsTemplate,
           position: {
             size_x: 1,
-            size_y: 2,
+            size_y: 1,
             col: 4,
             row: 1
           }
         },
-        {
-          title: 'Geospatial',
-          id: 'mapCard',
-          summaryContentHtml: getSummaryTemplate,
-          detailsContentHtml: getDetailsTemplate,
-          position: {
-            size_x: 2,
-            size_y: 2,
-            col: 2,
-            row: 1
-          }
-        },
         new Card({
-          title: 'Table Data',
+          title: 'Team Fortress News',
           id: 'tableCard',
           summaryViewType: "table",
           summaryViewOptions: {
@@ -92,7 +87,7 @@
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
-            numColumns: 2,
+            numColumns: 3,
             apiUrl: "/api/steam/news"
           },
           position: {
@@ -102,19 +97,47 @@
             row: 2
           }
         }),
-        {
-          title: 'Timeline',
+        new Card({
+          title: 'My Friends',
           id: 'timelineCard',
-          summaryContentHtml: getSummaryTemplate,
-          detailsContentHtml: getDetailsTemplate,
+          summaryViewType: "table",
+          summaryViewOptions: {
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 2,
+            apiUrl: "/api/steam/friends"
+          },
           position: {
-            size_x: 3,
-            size_y: 1,
+            size_x: 1,
+            size_y: 3,
             col: 2,
-            row: 3
+            row: 1
           }
-        }
+        }),
+        new Card({
+          title: "Everyone's Games",
+          id: 'mapCard',
+          summaryViewType: "table",
+          summaryViewOptions: {
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 2,
+            apiUrl: "/api/steam/games"
+          },
+          position: {
+            size_x: 1,
+            size_y: 2,
+            col: 3,
+            row: 1
+          }
+        })
       ];
+
+      this.friendsList = [];
 
     }
 
