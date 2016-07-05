@@ -18,6 +18,8 @@
 //   //console.log(this.getCurrentUser());
 // }
 
+var async = require('async');
+
 var Client = require('node-rest-client').Client;
 
 var client = new Client();
@@ -26,15 +28,17 @@ var _ = require('lodash');
 //var $ = require('https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js');
 
 var apiKey = "D93991D6DF3EA0044F99AFAA9FF9A45B";
-var profileId = "76561198043286443";
+var profileId = "76561198202153900";
 
 //var User = require('../user/user.controller').default;
 
-//var Auth = require('../../auth/auth.service');
+var Auth = require('../../auth/auth.service');
+var isLoggedIn = Auth.isLoggedIn;
 
 //var Main = require('../../../client/app/main/main.controller');
 
 export function news(req, res) {
+  console.log("should be true: " + isLoggedIn);
   client.get("http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json", function (data, response) {
     var news = _.get(data, 'appnews.newsitems', []);
     news = _.map(news, function(item) {
@@ -48,6 +52,7 @@ export function news(req, res) {
 }
 
 export function friends(req, res) {
+  // req.user.steam.id
   client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
     var friendList = _.get(data, 'friendslist.friends', []);
     var steamIds = _.map(friendList, function(friend) {
@@ -81,31 +86,51 @@ export function myGames(req, res) {
   })
 }
 
+export function friendGames(req, res) {
+  client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
+    var friendList = _.get(data, 'friendslist.friends', []);
+
+    async.map(friendList, function(friend, done) {
+      client.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + apiKey + "&steamid=" + friend.steamid + "&format=json", function (data, response) {
+        var gameList = _.get(data, 'response.games', []);
+        friend.games = gameList;
+        done(null, friend);
+      })
+    },function(err, games){
+      if (err) {
+        return res.status(500).send("Unable to get friends' games");
+      }
+      res.json({rows: games});
+    })
+  })
+}
+
+
 export function profile(req, res, profileID) {
   // $.getScript("../../../client/app/main/main.controller.js", function() {
   //   console.log("loading script");
   // })
 
-  function loadXMLDoc() {
-    var xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
-        if (xmlhttp.status == 200) {
-          console.log(xmlhttp.responseText);
-        }
-        else if (xmlhttp.status == 400) {
-          alert('There was an error 400');
-        }
-        else {
-          alert('something else other than 200 was returned');
-        }
-      }
-    };
-
-    xmlhttp.open("GET", "ajax_info.txt", true);
-    xmlhttp.send();
-  }
+  // function loadXMLDoc() {
+  //   var xmlhttp = new XMLHttpRequest();
+  //
+  //   xmlhttp.onreadystatechange = function() {
+  //     if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+  //       if (xmlhttp.status == 200) {
+  //         console.log(xmlhttp.responseText);
+  //       }
+  //       else if (xmlhttp.status == 400) {
+  //         alert('There was an error 400');
+  //       }
+  //       else {
+  //         alert('something else other than 200 was returned');
+  //       }
+  //     }
+  //   };
+  //
+  //   xmlhttp.open("GET", "ajax_info.txt", true);
+  //   xmlhttp.send();
+  // }
 
 
   client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + profileId, function (data, response) {

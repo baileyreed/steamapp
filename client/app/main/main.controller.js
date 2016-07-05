@@ -28,7 +28,7 @@ var userName = "Bailey";
           responsive_breakpoint: 850
         }
       };
-      
+
       // examples Of how you can fetch content for cards
       var getSummaryTemplate = (cardConfig, cb) => {
         console.log("Summary");
@@ -45,8 +45,6 @@ var userName = "Bailey";
           cb && cb(this.$compile(html)($scope));
         });
       }
-
-      'use strict';
 
 
       this.deck.cards = [
@@ -70,18 +68,35 @@ var userName = "Bailey";
           }
 
         }),
-        {
-          title: 'Alerts',
+        new Card({
+          title: 'Friends Games',
           id: 'alertsCard',
-          summaryContentHtml: getSummaryTemplate,
-          detailsContentHtml: getDetailsTemplate,
+          summaryViewType: "table",
+          summaryViewOptions: {
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 2,
+            apiUrl: "/api/steam/friendGames",
+            preDataTransform: function(card, data, callback) {
+              var games = _.uniq(_.flatten(_.map(data, function(friend) {
+                return _.map(friend.games, function (game) {
+                  return {
+                    appid: game.appid
+                  };
+                });
+              })));
+              callback(games);
+            }
+          },
           position: {
             size_x: 1,
             size_y: 1,
             col: 4,
             row: 1
           }
-        },
+        }),
         new Card({
           title: 'Team Fortress News',
           id: 'tableCard',
@@ -146,7 +161,7 @@ var userName = "Bailey";
       this.friendsList = [];
 
     }
-    
+
 
 
     $onInit() {
