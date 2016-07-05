@@ -1,6 +1,8 @@
 'use strict';
 
-(function() {
+var userName = "Bailey";
+
+( function() {
 
   class MainController {
 
@@ -12,6 +14,8 @@
       this.isLoggedIn = Auth.isLoggedIn;
       this.isAdmin = Auth.isAdmin;
       this.getCurrentUser = Auth.getCurrentUser;
+      this.profileId = "76561198202153900";
+
 
       this.initialized = false;
       this.deck = {
@@ -24,7 +28,7 @@
           responsive_breakpoint: 850
         }
       };
-
+      
       // examples Of how you can fetch content for cards
       var getSummaryTemplate = (cardConfig, cb) => {
         console.log("Summary");
@@ -56,7 +60,7 @@
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 1,
-            apiUrl: "/api/steam/profile"
+            apiUrl: "/api/steam/profile?profileID=" + this.profileId
           },
           position: {
             size_x: 1,
@@ -107,6 +111,7 @@
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 2,
+            noDataMessage: "Looks like you have no friends :(",
             apiUrl: "/api/steam/friends"
           },
           position: {
@@ -125,8 +130,9 @@
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
-            numColumns: 2,
-            apiUrl: "/api/steam/games"
+            numColumns: 3,
+            noDataMessage: "Looks like you have no games :(",
+            apiUrl: "/api/steam/myGames"
           },
           position: {
             size_x: 1,
@@ -140,6 +146,8 @@
       this.friendsList = [];
 
     }
+    
+
 
     $onInit() {
       this.$http.get('/api/things')

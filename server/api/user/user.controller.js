@@ -31,6 +31,10 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+export function currUser() {
+  return User.find({}, '-salt -password').exec();
+}
+
 /**
  * Creates a new user
  */

@@ -74,13 +74,16 @@
             pageList: viewOptions.transpose ? [] : [10, 25, 50, 100],
             height: $tableElContainer.height(),
             paginationVAlign: 'bottom',
+            noDataMessage: viewOptions.noDataMessage || "No data to display",
             reorderableColumns: true,
             queryParamsType: 'limit',
             ajaxOptions: {
               url: viewOptions.apiUrl,
-              method: 'GET'
+              method: 'GET',
+              profId: "76561198202153900"
             },
             ajax: function (request) {
+              //console.log("request = " + request.toString());
               $.ajax(request);
             },
 
@@ -155,7 +158,7 @@
 
                 //TODO fix this formatting
                 if (result.rows.length === 0 && (!viewOptions.message || !viewOptions.showMessage(card))) {
-                  rows.push(["No data to display"]);
+                  rows.push([viewOptions.noDataMessage]);
                 }
 
               card[section + 'Table'].data('bootstrap.table').initHeader();
