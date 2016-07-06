@@ -69,7 +69,7 @@ var userName = "Bailey";
 
         }),
         new Card({
-          title: 'Friends Games',
+          title: "Friends' Games",
           id: 'alertsCard',
           summaryViewType: "table",
           summaryViewOptions: {
@@ -77,23 +77,48 @@ var userName = "Bailey";
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
-            numColumns: 2,
+            numColumns: 4,
             apiUrl: "/api/steam/friendGames",
             preDataTransform: function(card, data, callback) {
-              var games = _.uniq(_.flatten(_.map(data, function(friend) {
-                return _.map(friend.games, function (game) {
-                  return {
-                    appid: game.appid
-                  };
-                });
-              })));
+              var games = _.flatten(data);
+
+              // sort by title
+              games.sort(function(a,b) {return (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0);} );
+
+              games = _.map(games, function(game) {
+                return {
+                  "icon": game.icon,
+                  "title": game.title,
+                  //"devTitle": game.title, // unformatted title
+                  "owners": game.owner + " (" + game.hours_played + ")"
+                };
+              });
+
+              for (var i = 0; i < games.length-1; i++) {
+                while (games[i].title == games[i+1].title) {
+                    games[i].owners += ", " + games[i+1].owners;
+                    if(games[i+1].owners)
+                    _.pullAt(games, i+1);
+                }
+              }
+              for (var i = 0; i < games.length; i++) {
+                games[i].title = ~games[i].owners.indexOf("<b>me</b>") ? '<b>' + games[i].title + '</b>' : games[i].title;
+              }
+
+
+              // game = {
+              //   icon,
+              //   title, (bold)
+              //   owners
+              // }
+
               callback(games);
             }
           },
           position: {
-            size_x: 1,
-            size_y: 1,
-            col: 4,
+            size_x: 2,
+            size_y: 3,
+            col: 3,
             row: 1
           }
         }),
@@ -136,26 +161,26 @@ var userName = "Bailey";
             row: 1
           }
         }),
-        new Card({
-          title: "Everyone's Games",
-          id: 'mapCard',
-          summaryViewType: "table",
-          summaryViewOptions: {
-            tooltipEnabled: true,
-            tablePageSize: 12,
-            pagination: false,
-            columnBreakpoint: 5,
-            numColumns: 3,
-            noDataMessage: "Looks like you have no games :(",
-            apiUrl: "/api/steam/myGames"
-          },
-          position: {
-            size_x: 1,
-            size_y: 2,
-            col: 3,
-            row: 1
-          }
-        })
+        // new Card({
+        //   title: "Everyone's Games",
+        //   id: 'mapCard',
+        //   summaryViewType: "table",
+        //   summaryViewOptions: {
+        //     tooltipEnabled: true,
+        //     tablePageSize: 12,
+        //     pagination: false,
+        //     columnBreakpoint: 5,
+        //     numColumns: 3,
+        //     noDataMessage: "Looks like you have no games :(",
+        //     apiUrl: "/api/steam/myGames"
+        //   },
+        //   position: {
+        //     size_x: 1,
+        //     size_y: 2,
+        //     col: 3,
+        //     row: 1
+        //   }
+        // })
       ];
 
       this.friendsList = [];
