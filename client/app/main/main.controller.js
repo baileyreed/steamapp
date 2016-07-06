@@ -58,7 +58,7 @@ var userName = "Bailey";
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 1,
-            apiUrl: "/api/steam/profile?profileID=" + this.profileId
+            apiUrl: "/api/steam/profile"
           },
           position: {
             size_x: 1,
@@ -183,8 +183,6 @@ var userName = "Bailey";
         // })
       ];
 
-      this.friendsList = [];
-
     }
 
 
@@ -200,10 +198,7 @@ var userName = "Bailey";
       });
 
     }
-
-
-
-
+    
   }
 
   angular.module('steamAppApp')

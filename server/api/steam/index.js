@@ -5,12 +5,15 @@ var controller = require('./steam.controller');
 
 var router = express.Router();
 
-router.get('/news', controller.news);
-router.get('/friends', controller.friends);
-router.get('/profile', controller.profile);
-//router.get('/friendProfiles', controller.friendProfiles);
-//router.get('/myGames', controller.myGames);
-router.get('/friendGames', controller.friendGames);
+import * as auth from '../../auth/auth.service';
+
+
+router.get('/news', auth.isAuthenticated(), controller.news);
+
+
+router.get('/friends', auth.isAuthenticated(), controller.friends);
+router.get('/profile', auth.isAuthenticated(), controller.profile);
+router.get('/friendGames', auth.isAuthenticated(), controller.friendGames);
 // router.get('/:id', controller.show);
 // router.post('/', controller.create);
 // router.put('/:id', controller.update);

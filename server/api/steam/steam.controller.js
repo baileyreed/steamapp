@@ -10,14 +10,6 @@
 'use strict';
 
 
-// class SteamController {
-//   constructor(Auth) {
-//     this.isLoggedIn = Auth.isLoggedIn;
-//     this.getCurrentUser = Auth.getCurrentUser;
-//   }
-//   //console.log(this.getCurrentUser());
-// }
-
 var async = require('async');
 
 var Client = require('node-rest-client').Client;
@@ -27,7 +19,6 @@ var client = new Client();
 var _ = require('lodash');
 
 var apiKey = "D93991D6DF3EA0044F99AFAA9FF9A45B";
-var profileId = "76561198202153900";
 
 
 export function news(req, res) {
@@ -44,7 +35,7 @@ export function news(req, res) {
 }
 
 export function friends(req, res) {
-  // req.user.steam.id
+  var profileId = req.user.steam.id;
   client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
     var friendList = _.get(data, 'friendslist.friends', []);
     var steamIds = _.map(friendList, function(friend) {
@@ -63,22 +54,8 @@ export function friends(req, res) {
   })
 }
 
-//
-// export function myGames(req, res) {
-//   client.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + apiKey + "&steamid=" + profileId + "&format=json&include_appinfo=1", function (data, response) {
-//     var gameList = _.get(data, 'response.games', []);
-//     gameList = _.map(gameList, function(game) {
-//       return {
-//         "name": game.name,
-//         "time played": game.playtime_forever / 60,
-//         "icon": '<a href="' + link + '"<img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0d/' + game.img_icon_url + '.jpg" alt="game icon" style="width:128;height:128;"></a>'
-//       }
-//     });
-//     res.json({rows: gameList}); // pass profile info here
-//   })
-// }
-
 export function friendGames(req, res) {
+  var profileId = req.user.steam.id;
   // get a list of friends' ids
   client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
     var steamIds = _.get(data, 'friendslist.friends', []);
@@ -137,6 +114,7 @@ export function friendGames(req, res) {
 
 
 export function profile(req, res) {
+  var profileId = req.user.steam.id;
   client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + profileId, function (data, response) {
     var profiles = _.get(data, 'response.players', []);
     var myProfile = profiles[0];
