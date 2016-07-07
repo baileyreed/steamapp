@@ -3,9 +3,9 @@ import {Strategy as SteamStrategy} from 'passport-steam';
 
 export function setup(User, config) {
   passport.use(new SteamStrategy({
-      returnURL: 'http://localhost:9000/auth/steam/callback',
-      realm: 'http://localhost:9000/',
-      apiKey: 'D93991D6DF3EA0044F99AFAA9FF9A45B'
+      returnURL: config.steam.callbackURL,
+      realm: config.steam.realm,
+      apiKey: config.steam.apiKey
   },
   function(identifier, profile, done) {
     User.findOne({'steam.id': profile.id}).exec()
@@ -22,7 +22,8 @@ export function setup(User, config) {
           role: 'user',
           username: profile.displayName,
           provider: 'steam',
-          steam: profile
+          steam: profile,
+          steamId: profile.id
         });
         user.save()
           .then(user => done(null, user))

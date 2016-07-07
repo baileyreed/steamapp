@@ -93,6 +93,19 @@
           .$promise;
       },
 
+      changeSteam(steamId, callback) {
+        return User.changeSteam({
+          id: currentUser._id
+        }, {
+          steamId: steamId
+        }, function() {
+          return safeCb(callback)(null);
+        }, function(err) {
+          return safeCb(callback)(err);
+        })
+          .$promise;
+      },
+
       /**
        * Gets all available info on a user
        *   (synchronous|asynchronous)

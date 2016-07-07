@@ -1,7 +1,5 @@
 'use strict';
 
-var userName = "Bailey";
-
 ( function() {
 
   class MainController {
@@ -14,8 +12,6 @@ var userName = "Bailey";
       this.isLoggedIn = Auth.isLoggedIn;
       this.isAdmin = Auth.isAdmin;
       this.getCurrentUser = Auth.getCurrentUser;
-      this.profileId = "76561198202153900";
-
 
       this.initialized = false;
       this.deck = {
@@ -30,21 +26,21 @@ var userName = "Bailey";
       };
 
       // examples Of how you can fetch content for cards
-      var getSummaryTemplate = (cardConfig, cb) => {
-        console.log("Summary");
-        // Not using the cardConfig here but you could use it to make request
-        this.$http.get('components/deckster/testSummaryCard.html').success(html => {
-           cb && cb(this.$compile(html)($scope));
-        });
-      }
-
-      var getDetailsTemplate = (cardConfig, cb) => {
-        console.log("Test");
-        // Not using the cardConfig here but you could use it to make request
-        this.$http.get('components/deckster/testDetailsCard.html').success(html => {
-          cb && cb(this.$compile(html)($scope));
-        });
-      }
+      // var getSummaryTemplate = (cardConfig, cb) => {
+      //   console.log("Summary");
+      //   // Not using the cardConfig here but you could use it to make request
+      //   this.$http.get('components/deckster/testSummaryCard.html').success(html => {
+      //      cb && cb(this.$compile(html)($scope));
+      //   });
+      // }
+      //
+      // var getDetailsTemplate = (cardConfig, cb) => {
+      //   console.log("Test");
+      //   // Not using the cardConfig here but you could use it to make request
+      //   this.$http.get('components/deckster/testDetailsCard.html').success(html => {
+      //     cb && cb(this.$compile(html)($scope));
+      //   });
+      // }
 
 
       this.deck.cards = [
@@ -77,7 +73,7 @@ var userName = "Bailey";
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
-            numColumns: 4,
+            numColumns: 3,
             apiUrl: "/api/steam/friendGames",
             preDataTransform: function(card, data, callback) {
               var games = _.flatten(data);
@@ -104,14 +100,7 @@ var userName = "Bailey";
               for (var i = 0; i < games.length; i++) {
                 games[i].title = ~games[i].owners.indexOf("<b>me</b>") ? '<b>' + games[i].title + '</b>' : games[i].title;
               }
-
-
-              // game = {
-              //   icon,
-              //   title, (bold)
-              //   owners
-              // }
-
+              
               callback(games);
             }
           },
@@ -198,7 +187,7 @@ var userName = "Bailey";
       });
 
     }
-    
+
   }
 
   angular.module('steamAppApp')

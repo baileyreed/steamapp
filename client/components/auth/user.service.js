@@ -12,6 +12,12 @@
           controller: 'password'
         }
       },
+      changeSteam: {
+        method: 'PUT',
+        params: {
+          controller: 'steamId'
+        }
+      },
       get: {
         method: 'GET',
         params: {

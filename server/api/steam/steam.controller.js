@@ -35,8 +35,23 @@ export function news(req, res) {
 }
 
 export function friends(req, res) {
-  var profileId = req.user.steam.id;
+  if (!req.user.steamId) {
+    res.json({rows: [{"":"", " ":""}]});
+    return;
+  }
+
+  var profileId = req.user.steamId;
   client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
+
+    if (!data.friendslist) { // message for people who have their profile set to private
+      res.json({rows: [
+        {
+          "Message":'<p>Looks like your friends list is private.</p><p><a href="https://steamcommunity.com/profiles/76561198202153900/edit/settings" target="_blank">Click here</a> to change your Profile Status to "Public," then refresh this page.</p>',
+          "":""
+        }
+      ]});
+      return;
+    }
     var friendList = _.get(data, 'friendslist.friends', []);
     var steamIds = _.map(friendList, function(friend) {
       return friend.steamid;
@@ -51,76 +66,98 @@ export function friends(req, res) {
       });
       res.json({rows: friendList});
     })
+
   })
 }
 
 export function friendGames(req, res) {
-  var profileId = req.user.steam.id;
-  // get a list of friends' ids
-  client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
-    var steamIds = _.get(data, 'friendslist.friends', []);
-    steamIds = _.map(steamIds, function(friend) {
-      return friend.steamid;
-    }).join(",");
+  if (!req.user.steamId) {
+    res.json({rows: [{"": ""}]});
+    return;
+  }
 
-    // convert
-    client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + steamIds, function (data, response) {
-      var friendList = _.get(data, 'response.players', []);
+    var profileId = req.user.steamId;
+    // get a list of friends' ids
+    client.get("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apiKey + "&steamid=" + profileId + "&relationship=friend", function (data, response) {
+      var steamIds = _.get(data, 'friendslist.friends', []);
+      steamIds = _.map(steamIds, function(friend) {
+        return friend.steamid;
+      }).join(",");
 
-      // get self's owned games
-      client.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + apiKey + "&steamid=" + profileId + "&format=json&include_appinfo=1", function (data2, response) {
-        // make additional object for self
-        var me = {
-          steamid: profileId,
-          personaname: "<b>me</b>",
-          games: []
-        };
-        // add games to self object
-        me.games = _.get(data2, 'response.games', []);
+      // convert
+      client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + steamIds, function (data, response) {
+        var friendList = _.get(data, 'response.players', []);
 
-        // call GetOwnedGames for each friend
-        async.map(friendList, function (friend, done) {
-          client.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + apiKey + "&steamid=" + friend.steamid + "&format=json&include_appinfo=1", function (data3, response) {
-            var gameList = _.get(data3, 'response.games', []);
-            friend.games = gameList;
-            //console.log(friend);
-            done(null, friend);
-          })
-        }, function (err, people) {
-          if (err) {
-            return res.status(500).send("Unable to get friends' games");
-          }
-          people.push(me); // add self to friends array
+        // get self's owned games
+        client.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + apiKey + "&steamid=" + profileId + "&format=json&include_appinfo=1", function (data2, response) {
+          // make additional object for self
+          var me = {
+            steamid: profileId,
+            personaname: "<b>me</b>",
+            games: []
+          };
+          // add games to self object
+          me.games = _.get(data2, 'response.games', []);
 
-          // transform game info
-          people = _.map(people, function(person) {
-            person.games = _.map(person.games, function(game) {
-              return {
-                "icon": '<a href="http://store.steampowered.com/app/' + game.appid + '/" target="_blank"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0d/' + game.img_icon_url + '.jpg" alt="game icon" ' +
-                  'style="width:128;height:128;" onError="this.onerror=null;this.src=\'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg\';"></a>',
-                "title": game.name,
-                "hours_played": Math.round(game.playtime_forever / 0.6) / 100,
-                "owner": person.personaname
-              };
+          // call GetOwnedGames for each friend
+          async.map(friendList, function (friend, done) {
+            client.get("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=" + apiKey + "&steamid=" + friend.steamid + "&format=json&include_appinfo=1", function (data3, response) {
+              var gameList = _.get(data3, 'response.games', []);
+              friend.games = gameList;
+              //console.log(friend);
+              done(null, friend);
             })
-            return person.games;
-          });
-          res.json({rows: people});
+          }, function (err, people) {
+            if (err) {
+              return res.status(500).send("Unable to get friends' games");
+            }
+            people.push(me); // add self to friends array
+
+            // transform game info
+            people = _.map(people, function(person) {
+              person.games = _.map(person.games, function(game) {
+                return {
+                  "icon": '<a href="http://store.steampowered.com/app/' + game.appid + '/" target="_blank"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0d/' + game.img_icon_url + '.jpg" alt="game icon" ' +
+                  'style="width:128;height:128;" onError="this.onerror=null;this.src=\'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg\';"></a>',
+                  "title": game.name,
+                  "hours_played": Math.round(game.playtime_forever / 0.6) / 100,
+                  "owner": person.personaname
+                };
+              })
+              return person.games;
+            });
+            res.json({rows: people});
+          })
         })
       })
     })
-  })
+
+
 }
 
 
 export function profile(req, res) {
-  var profileId = req.user.steam.id;
+  if (!req.user.steamId) { // if user has not added a steam id
+    res.json({rows: [{"Message": "Please add a Steam profile."}]});
+    return;
+  }
+
+  var profileId = req.user.steamId;
+
   client.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apiKey + "&steamids=" + profileId, function (data, response) {
+
     var profiles = _.get(data, 'response.players', []);
-    var myProfile = profiles[0];
-    var modProfile = [{
-      "" : '<div><a href="' + myProfile.profileurl + '" target="_blank"><img src="' + myProfile.avatarmedium + '" alt="profile picture" style="width:128;height:128;"></a><p>' + myProfile.personaname + '</p></div>'
-    }];
-    res.json({rows: modProfile});
-  });
+
+      if (!profiles) { // if user's steam id is invalid
+        res.json({rows: [{"Message": "Oops, looks like your Steam ID is invalid. Try changing your Steam profile."}]});
+        return;
+      }
+
+      var myProfile = profiles[0];
+      var modProfile = [{
+        "" : '<div><a href="' + myProfile.profileurl + '" target="_blank"><img src="' + myProfile.avatarmedium + '" alt="profile picture" style="width:128;height:128;"></a><p>' + myProfile.personaname + '</p></div>'
+      }];
+
+      res.json({rows: modProfile});
+    });
 }

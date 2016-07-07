@@ -45,6 +45,12 @@ var all = {
     clientID:     process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+  },
+  
+  steam: {
+    apiKey:       process.env.STEAM_API_KEY,
+    realm:        process.env.DOMAIN,
+    callbackURL:  (process.env.DOMAIN || '') + '/auth/steam/callback'
   }
 };
 

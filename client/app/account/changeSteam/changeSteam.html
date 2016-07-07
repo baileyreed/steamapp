@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <!--Change/Add Steam profile-->
+
+    <div class="col-sm-12">
+      <h1>Change Steam Profile</h1>
+    </div>
+    <div class="col-sm-12">
+      <form class="form" name="form" ng-submit="vm.changeSteam(form)" novalidate>
+
+
+        <div class="form-group">
+          <label>Your Steam Profile ID</label>
+
+          <input name="steamId" class="form-control" ng-model="vm.user.steamId"
+                 ng-minlength="17"
+                 ng-maxlength="17"
+                 required/>
+          <p class="help-block"
+          ng-show="(form.steamId.$error.minlength || form.steamId.$error.maxlength || form.steamId.$error.required) && (form.steamId.$dirty || vm.submitted)">
+          ID must be 17-digit number
+          </p>
+        </div>
+
+        <p class="help-block"> {{ vm.message }} </p>
+
+        <button class="btn btn-lg btn-primary" type="submit">Add Profile</button>
+        <a href="/"><button class="btn btn-lg btn-primary" ng-show="vm.showReturn" >Return to dashboard</button></a>
+        </form>
+    </div>
+  </div>
+</div>

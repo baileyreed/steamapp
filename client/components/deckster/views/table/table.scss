@@ -25,6 +25,9 @@ a.table-export-btn {
   .light-theme & {
     background-color: #fff;
   }
+  .steam-theme & {
+    background-color: #2D4256;
+  }
 }
 
 .pagination {
@@ -76,6 +79,28 @@ a.table-export-btn {
       }
     }
   }
+  .steam-theme & {
+    li {
+      a {
+        color: white;
+        background-color: white;
+        border: 1px solid white;
+        &:hover {
+          background-color: white;
+        }
+      }
+    }
+    .active {
+      a {
+        background-color: white;
+        border-color: white;
+        color: white;
+        &:hover {
+          background-color: white;
+        }
+      }
+    }
+  }
 }
 
 .bootstrap-table {
@@ -106,7 +131,8 @@ a.table-export-btn {
       > td {
         border: none;
 
-        color: #fff;
+        //color: #fff;
+        color: white;
       }
       &:last-child {
         border: none;
@@ -115,7 +141,8 @@ a.table-export-btn {
     tr:nth-child(odd), tr:nth-child(even) {
 
       > td {
-        background: #fff;
+        //background: #fff;
+        background: white;
       }
     }
     > tr.hover, > tr:hover, > tr:nth-child(even):hover, > tr:nth-child(odd):hover {
@@ -137,7 +164,8 @@ a.table-export-btn {
           border-bottom: 1px solid $light-grey;
           height: 50px;
           border-left: none;
-          background: #fff;
+          //background: #fff;
+          background: white;
 
           // th EDITS PER TABLE CARD CARD
 
@@ -201,7 +229,7 @@ a.table-export-btn {
 
 
 .fixed-table-body {
-  //background-color: #fff;
+  //background-color: white;
 }
 
 

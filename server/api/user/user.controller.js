@@ -103,6 +103,25 @@ export function changePassword(req, res, next) {
     });
 }
 
+export function changeSteam(req, res, next) {
+  console.log("here we are in changeSteam!");
+  console.log(req.body.steamId);
+  var userId = req.user._id;
+  var newSteam = String(req.body.steamId);
+
+  return User.findById(userId).exec()
+    .then(user => {
+      console.log("here we are in user!");
+      user.steamId = newSteam;
+      console.log(user.steamId);
+      return user.save()
+        .then(() => {
+          res.status(204).end();
+        })
+        .catch(validationError(res));
+    });
+}
+
 /**
  * Get my info
  */

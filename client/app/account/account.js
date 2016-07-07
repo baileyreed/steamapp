@@ -30,6 +30,12 @@ angular.module('steamAppApp')
         controller: 'SettingsController',
         controllerAs: 'vm',
         authenticate: true
+      })
+      .state('changeSteam', {
+        url: '/changeSteam',
+        templateUrl: 'app/account/changeSteam/changeSteam.html',
+        controller: 'ChangeSteamController',
+        controllerAs: 'vm'
       });
   })
   .run(function($rootScope) {

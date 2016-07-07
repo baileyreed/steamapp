@@ -38,7 +38,8 @@ var UserSchema = new Schema({
   salt: String,
   google: {},
   github: {},
-  steam: {}
+  steam: {},
+  steamId: String
 });
 
 /**

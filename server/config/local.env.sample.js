@@ -12,6 +12,8 @@ module.exports = {
   GOOGLE_ID:        'app-id',
   GOOGLE_SECRET:    'secret',
 
+  STEAM_API_KEY:    'api-key',
+
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };

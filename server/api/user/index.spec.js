@@ -7,6 +7,7 @@ var userCtrlStub = {
   destroy: 'userCtrl.destroy',
   me: 'userCtrl.me',
   changePassword: 'userCtrl.changePassword',
+  changeSteam: 'userCtrl.changeSteam',
   show: 'userCtrl.show',
   create: 'userCtrl.create'
 };
@@ -79,6 +80,16 @@ describe('User API Router:', function() {
     it('should be authenticated and route to user.controller.changePassword', function() {
       routerStub.put
         .withArgs('/:id/password', 'authService.isAuthenticated', 'userCtrl.changePassword')
+        .should.have.been.calledOnce;
+    });
+
+  });
+
+  describe('PUT /api/users/:id/steam/id', function() {
+
+    it('should be authenticated and route to user.controller.changeSteam', function() {
+      routerStub.put
+        .withArgs('/:id/steam/id', 'authService.isAuthenticated', 'userCtrl.changeSteam')
         .should.have.been.calledOnce;
     });
 
