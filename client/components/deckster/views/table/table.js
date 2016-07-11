@@ -4,6 +4,8 @@
 ;
 (function (root, factory) {
 
+  console.log(root);
+
   if (typeof define === 'function' && define.amd) {
     define(['jquery', 'deckster'], factory);
   } else {
@@ -79,11 +81,9 @@
             queryParamsType: 'limit',
             ajaxOptions: {
               url: viewOptions.apiUrl,
-              method: 'GET',
-              profId: "76561198202153900"
+              method: 'GET'
             },
             ajax: function (request) {
-              //console.log("request = " + request.toString());
               $.ajax(request);
             },
 

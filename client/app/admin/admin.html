@@ -3,7 +3,8 @@
   <ul class="list-group user-list">
     <li class="list-group-item" ng-repeat="user in admin.users">
 	    <div class="user-info">
-	        <strong>{{user.name}}</strong><br>
+	        <strong>{{user.name}}</strong>
+          <span class="text-muted" ng-show="user.steamId">(<a href="http://steamcommunity.com/profiles/{{user.steamId}}" target="_blank">Profile</a>)</span><br>
 	        <span class="text-muted">{{user.email}}</span>
 	    </div>
         <a ng-click="admin.delete(user)" class="trash"><span class="fa fa-trash fa-2x"></span></a>

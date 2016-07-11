@@ -9,6 +9,7 @@
     }
 
     delete(user) {
+      console.log(user.steam);
       user.$remove();
       this.users.splice(this.users.indexOf(user), 1);
     }

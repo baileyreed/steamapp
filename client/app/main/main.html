@@ -7,7 +7,7 @@
 <!--</header>-->
 
 <!--TODO: get this to not show up-->
-<p class="hero-unit" ng-show="!$ctrl.getCurrentUser().steamId && $ctrl.isLoggedIn()">Add a Steam profile to see your stuff! Refresh the page if you already did that.</p>
+<p class="hero-unit" ng-show="{{!$ctrl.getCurrentUser().steamId && $ctrl.isLoggedIn()}}">Add a Steam profile to see your stuff! Refresh the page if you already did that.</p>
 
 <deckster-deck ng-show="$ctrl.isLoggedIn()" deck="$ctrl.deck" initialized="$ctrl.initialized" ng-if="$ctrl.initialized"></deckster-deck>
 

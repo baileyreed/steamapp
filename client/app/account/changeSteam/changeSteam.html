@@ -11,18 +11,26 @@
 
         <div class="form-group">
           <label>Your Steam Profile ID</label>
-
+          <p style="color:gray">Ex: 76561198123456789</p>
           <input name="steamId" class="form-control" ng-model="vm.user.steamId"
                  ng-minlength="17"
                  ng-maxlength="17"
-                 required/>
-          <p class="help-block"
-          ng-show="(form.steamId.$error.minlength || form.steamId.$error.maxlength || form.steamId.$error.required) && (form.steamId.$dirty || vm.submitted)">
-          ID must be 17-digit number
-          </p>
+                 ng-required="!(vm.user.steamId.length || vm.user.steamUrl.length)"/>
+          <p class="help-block" style="color:red" ng-show="(form.steamId.$error.minlength || form.steamId.$error.maxlength || form.steamId.$error.required) && (form.steamId.$dirty || vm.submitted)">
+            ID must be 17-digit number</p>
         </div>
 
-        <p class="help-block"> {{ vm.message }} </p>
+        <p>This doesn't really work yet:</p>
+        <div class="form-group">
+          <label>Your Steam Custom URL</label>
+          <p style="color:gray">Ex: http://steamcommunity.com/id/c00lgamer123</p>
+          <input type="url" name="steamUrl" class="form-control" ng-model="vm.user.steamUrl" ng-required="!(vm.user.steamId.length || vm.user.steamUrl.length)" value="http://steamcommunity.com/id/"/>
+        </div>
+
+        <p class="help-block" style="color:red" ng-show="(form.steamId.$error.minlength || form.steamId.$error.maxlength || form.steamId.$error.required) && (form.steamId.$dirty || vm.submitted)" >
+          URL must be a URL</p>
+
+        <p class="help-block">{{ vm.message }} </p>
 
         <button class="btn btn-lg btn-primary" type="submit">Add Profile</button>
         <a href="/"><button class="btn btn-lg btn-primary" ng-show="vm.showReturn" >Return to dashboard</button></a>

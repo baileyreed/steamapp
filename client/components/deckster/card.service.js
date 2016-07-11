@@ -2,7 +2,7 @@
 
 angular.module('steamAppApp')
   .factory('Card', function ($http) {
-
+    
     var Card = function (cardData) {
       return this.setData(cardData);
     };

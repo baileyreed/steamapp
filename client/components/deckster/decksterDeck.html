@@ -1,7 +1,11 @@
 <div class="deckster-deck-wrapper">
   <div class="deckster-deck" deck-options="deck">
     <deckster-card ng-repeat="cardOpts in deck.cards" card-options="cardOpts"></deckster-card>
-    <p>{{$ctrl.jsonData.appnews.appid}}</p>
+
+    <!--These cards should only show if the user has added a steam profile-->
+    <div ng-show="1==1"><deckster-card ng-repeat="cardOpts in deck.steamCards" card-options="cardOpts"></deckster-card></div>
+
+    <!--<p>{{$ctrl.jsonData.appnews.appid}}</p>-->
   </div>
 </div>
 

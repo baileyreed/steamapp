@@ -21,6 +21,20 @@ var _ = require('lodash');
 var apiKey = "D93991D6DF3EA0044F99AFAA9FF9A45B";
 
 
+
+export function getSteamId(req, res) {
+  console.log("here wer are in getSteamId!");
+  client.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key" + apiKey + "&vanityurl=" + req.user.steamId, function (data, response) {
+    data = _.get(data, 'response', {});
+    if (data.success!=1) {
+      res.json({'msg': 'Error: steamId not found'})
+    } else {
+      res.json({'steamId': data.steamId});
+    }
+  })
+}
+
+
 export function news(req, res) {
   client.get("http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json", function (data, response) {
     var news = _.get(data, 'appnews.newsitems', []);

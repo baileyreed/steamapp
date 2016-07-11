@@ -4,7 +4,7 @@
 
   class MainController {
 
-    constructor($http, $scope, $compile, $timeout, Auth, Card) {
+    constructor($http, $scope, $compile, $timeout, Auth, Card, $rootScope) {
       this.$http = $http;
       this.$compile = $compile;
       this.$timeout = $timeout;
@@ -12,6 +12,7 @@
       this.isLoggedIn = Auth.isLoggedIn;
       this.isAdmin = Auth.isAdmin;
       this.getCurrentUser = Auth.getCurrentUser;
+      $rootScope.getCurrentUser = this.getCurrentUser;
 
       this.initialized = false;
       this.deck = {
@@ -42,8 +43,8 @@
       //   });
       // }
 
-
-      this.deck.cards = [
+      // These cards require the user to add a steam profile before using
+      this.deck.steamCards = [
         new Card({
           title: 'Your Profile',
           id: 'photoCard',
@@ -64,6 +65,32 @@
           }
 
         }),
+        new Card({
+          title: 'Heres a bar chart',
+
+          id: 'sampleBar',
+          summaryViewType: "barChart",
+          summaryViewOptions: {
+            subtitle: 'This is ths subtitle',
+            xTitle: 'the x axis',
+            xAxisPlotLines: [15, 23],
+            yTitle: 'the y axis',
+            yAxisPlotLines: [24, 25],
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 1,
+            apiUrl: "/api/steam/profile"
+          },
+          position: {
+            size_x: 1,
+            size_y: 1,
+            col: 1,
+            row: 1
+          }
+        }),
+
         new Card({
           title: "Friends' Games",
           id: 'alertsCard',
@@ -92,15 +119,15 @@
 
               for (var i = 0; i < games.length-1; i++) {
                 while (games[i].title == games[i+1].title) {
-                    games[i].owners += ", " + games[i+1].owners;
-                    if(games[i+1].owners)
+                  games[i].owners += ", " + games[i+1].owners;
+                  if(games[i+1].owners)
                     _.pullAt(games, i+1);
                 }
               }
               for (var i = 0; i < games.length; i++) {
                 games[i].title = ~games[i].owners.indexOf("<b>me</b>") ? '<b>' + games[i].title + '</b>' : games[i].title;
               }
-              
+
               callback(games);
             }
           },
@@ -111,6 +138,31 @@
             row: 1
           }
         }),
+        new Card({
+          title: 'My Friends',
+          id: 'timelineCard',
+          summaryViewType: "table",
+          steamOnly: true,
+          summaryViewOptions: {
+            tooltipEnabled: true,
+            tablePageSize: 12,
+            pagination: false,
+            columnBreakpoint: 5,
+            numColumns: 2,
+            noDataMessage: "Looks like you have no friends :(",
+            apiUrl: "/api/steam/friends"
+          },
+          position: {
+            size_x: 1,
+            size_y: 3,
+            col: 2,
+            row: 1
+          }
+        })
+      ];
+
+
+      this.deck.cards = [
         new Card({
           title: 'Team Fortress News',
           id: 'tableCard',
@@ -129,27 +181,7 @@
             col: 1,
             row: 2
           }
-        }),
-        new Card({
-          title: 'My Friends',
-          id: 'timelineCard',
-          summaryViewType: "table",
-          summaryViewOptions: {
-            tooltipEnabled: true,
-            tablePageSize: 12,
-            pagination: false,
-            columnBreakpoint: 5,
-            numColumns: 2,
-            noDataMessage: "Looks like you have no friends :(",
-            apiUrl: "/api/steam/friends"
-          },
-          position: {
-            size_x: 1,
-            size_y: 3,
-            col: 2,
-            row: 1
-          }
-        }),
+        })
         // new Card({
         //   title: "Everyone's Games",
         //   id: 'mapCard',
