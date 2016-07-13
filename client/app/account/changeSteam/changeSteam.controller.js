@@ -59,7 +59,7 @@ class ChangeSteamController {
           .then(() => {
             this.message = 'Steam profile successfully added.';
             this.showReturn = true;
-            this.$apply();
+            //this.$apply();
           })
           .catch(() => {
             this.errors.other = 'Error occurred';

@@ -54,11 +54,12 @@
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
-            numColumns: 1,
+            numColumns: 2,
+            hideHeader: true,
             apiUrl: "/api/steam/profile"
           },
           position: {
-            size_x: 1,
+            size_x: 2,
             size_y: 1,
             col: 1,
             row: 1
@@ -66,28 +67,35 @@
 
         }),
         new Card({
-          title: 'Heres a bar chart',
+          title: "Friends' Playtimes",
 
           id: 'sampleBar',
           summaryViewType: "barChart",
           summaryViewOptions: {
-            subtitle: 'This is ths subtitle',
-            xTitle: 'the x axis',
-            xAxisPlotLines: [15, 23],
-            yTitle: 'the y axis',
-            yAxisPlotLines: [24, 25],
+            subtitle: 'What your friends have been playing recently',
+            xTitle: 'Games Played',
+            yTitle: 'Hours Played (in the last 2 weeks)',
             tooltipEnabled: true,
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 1,
-            apiUrl: "/api/steam/profile"
+            apiUrl: "/api/steam/friendsGamesChart",
+            dataTransform: {
+              row: "category",
+              titleFormats: {
+                category: "categoryFormatter",
+                series: "seriesFormatter"
+              },
+              nameColumn: "title",
+              emptyRow: true
+            }
           },
           position: {
-            size_x: 1,
-            size_y: 1,
+            size_x: 3,
+            size_y: 2,
             col: 1,
-            row: 1
+            row: 4
           }
         }),
 
@@ -101,7 +109,7 @@
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 3,
-            apiUrl: "/api/steam/friendGames",
+            apiUrl: "/api/steam/friendGamesTable",
             preDataTransform: function(card, data, callback) {
               var games = _.flatten(data);
 
@@ -139,7 +147,7 @@
           }
         }),
         new Card({
-          title: 'My Friends',
+          title: 'Your Friends',
           id: 'timelineCard',
           summaryViewType: "table",
           steamOnly: true,
@@ -154,17 +162,13 @@
           },
           position: {
             size_x: 1,
-            size_y: 3,
-            col: 2,
-            row: 1
+            size_y: 2,
+            col: 4,
+            row: 4
           }
-        })
-      ];
-
-
-      this.deck.cards = [
+        }),
         new Card({
-          title: 'Team Fortress News',
+          title: 'Game News',
           id: 'tableCard',
           summaryViewType: "table",
           summaryViewOptions: {
@@ -176,12 +180,17 @@
             apiUrl: "/api/steam/news"
           },
           position: {
-            size_x: 1,
+            size_x: 2,
             size_y: 2,
             col: 1,
             row: 2
           }
         })
+      ];
+
+
+      this.deck.cards = [
+
         // new Card({
         //   title: "Everyone's Games",
         //   id: 'mapCard',

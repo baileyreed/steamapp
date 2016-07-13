@@ -4,8 +4,6 @@
 ;
 (function (root, factory) {
 
-  console.log(root);
-
   if (typeof define === 'function' && define.amd) {
     define(['jquery', 'deckster'], factory);
   } else {
@@ -70,7 +68,8 @@
           card[section + 'Table'] = $tableEl.bootstrapTable({
             classes: "table table-hover" + (viewOptions.transpose ? " transposed" : ""),
             pagination: viewOptions.pagination || true,
-            showHeader: viewOptions.transpose ? false : true,
+            //showHeader: viewOptions.transpose ? false : true,
+            showHeader: viewOptions.showHeader ? true : false,
             sidePagination: 'server',
             pageSize: viewOptions.transpose ? 1 : (viewOptions.pageSize || 10),
             pageList: viewOptions.transpose ? [] : [10, 25, 50, 100],

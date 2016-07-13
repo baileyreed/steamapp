@@ -1,14 +1,17 @@
 'use strict';
 
 angular.module('steamAppApp')
-  .factory('Card', function ($http) {
-    
+  .factory('Card', function ($http, DataManager) {
+
     var Card = function (cardData) {
       return this.setData(cardData);
     };
 
     Card.prototype.setData = function (cardData) {
       angular.extend(this, cardData);
+      this.onResize = DataManager.defaultOnResize;
+      this.loadData = DataManager.defaultLoadData;
+      this.reloadView = DataManager.defaultOnReload;
       return this;
     };
 
@@ -27,8 +30,10 @@ angular.module('steamAppApp')
       }
 
       var loadData = function (data) {
+        console.log("here's some data");
+        console.log(data);
         var transformData = function (data) {
-          // data = DataManager.transformDataForCard(data, cardType, cardOptions);
+          data = DataManager.transformDataForCard(data, cardType, cardOptions);
           // setSeriesColors(card, data.series);
           callback && callback(data);
           card.hideSpinner();
