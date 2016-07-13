@@ -47,8 +47,8 @@
       this.deck.steamCards = [
         new Card({
           title: 'Your Profile',
-          id: 'photoCard',
-          summaryViewType: "table",
+          id: 'profileCard',
+          summaryViewType: 'table',
           summaryViewOptions: {
             tooltipEnabled: true,
             tablePageSize: 12,
@@ -56,7 +56,7 @@
             columnBreakpoint: 5,
             numColumns: 2,
             hideHeader: true,
-            apiUrl: "/api/steam/profile"
+            apiUrl: '/api/steam/profile'
           },
           position: {
             size_x: 2,
@@ -68,9 +68,8 @@
         }),
         new Card({
           title: "Friends' Playtimes",
-
-          id: 'sampleBar',
-          summaryViewType: "barChart",
+          id: 'playtimeBarCard',
+          summaryViewType: 'barChart',
           summaryViewOptions: {
             subtitle: 'What your friends have been playing recently',
             xTitle: 'Games Played',
@@ -80,14 +79,14 @@
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 1,
-            apiUrl: "/api/steam/friendsGamesChart",
+            apiUrl: '/api/steam/friendsGamesChart',
             dataTransform: {
-              row: "category",
+              row: 'category',
               titleFormats: {
-                category: "categoryFormatter",
-                series: "seriesFormatter"
+                category: 'categoryFormatter',
+                series: 'seriesFormatter'
               },
-              nameColumn: "title",
+              nameColumn: 'title',
               emptyRow: true
             }
           },
@@ -101,15 +100,15 @@
 
         new Card({
           title: "Friends' Games",
-          id: 'alertsCard',
-          summaryViewType: "table",
+          id: 'gamesCard',
+          summaryViewType: 'table',
           summaryViewOptions: {
             tooltipEnabled: true,
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 3,
-            apiUrl: "/api/steam/friendGamesTable",
+            apiUrl: '/api/steam/friendGamesTable',
             preDataTransform: function(card, data, callback) {
               var games = _.flatten(data);
 
@@ -118,22 +117,24 @@
 
               games = _.map(games, function(game) {
                 return {
-                  "icon": game.icon,
-                  "title": game.title,
+                  icon: game.icon,
+                  title: game.title,
                   //"devTitle": game.title, // unformatted title
-                  "owners": game.owner + " (" + game.hours_played + ")"
+                  owners: game.owner + ' (' + game.hours_played + ')'
                 };
               });
 
               for (var i = 0; i < games.length-1; i++) {
-                while (games[i].title == games[i+1].title) {
-                  games[i].owners += ", " + games[i+1].owners;
-                  if(games[i+1].owners)
-                    _.pullAt(games, i+1);
+                while (games[i].title === games[i+1].title) {
+                  games[i].owners += ', ' + games[i+1].owners;
+                  if(games[i+1].owners) {
+                    _.pullAt(games, i + 1);
+                  }
                 }
               }
-              for (var i = 0; i < games.length; i++) {
-                games[i].title = ~games[i].owners.indexOf("<b>me</b>") ? '<b>' + games[i].title + '</b>' : games[i].title;
+              for (var j = 0; j < games.length; j++) {
+                // if 'owners' contains 'me', then bold the title
+                games[j].title = ~games[j].owners.indexOf("<b>me</b>") ? '<b>' + games[j].title + '</b>' : games[j].title;
               }
 
               callback(games);
@@ -148,8 +149,8 @@
         }),
         new Card({
           title: 'Your Friends',
-          id: 'timelineCard',
-          summaryViewType: "table",
+          id: 'friendsCard',
+          summaryViewType: 'table',
           steamOnly: true,
           summaryViewOptions: {
             tooltipEnabled: true,
@@ -157,8 +158,8 @@
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 2,
-            noDataMessage: "Looks like you have no friends :(",
-            apiUrl: "/api/steam/friends"
+            noDataMessage: 'Looks like you have no friends :(',
+            apiUrl: '/api/steam/friends'
           },
           position: {
             size_x: 1,
@@ -169,15 +170,15 @@
         }),
         new Card({
           title: 'Game News',
-          id: 'tableCard',
-          summaryViewType: "table",
+          id: 'newsCard',
+          summaryViewType: 'table',
           summaryViewOptions: {
             tooltipEnabled: true,
             tablePageSize: 12,
             pagination: false,
             columnBreakpoint: 5,
             numColumns: 3,
-            apiUrl: "/api/steam/news"
+            apiUrl: '/api/steam/news'
           },
           position: {
             size_x: 2,
@@ -188,34 +189,12 @@
         })
       ];
 
-
+      // Add cards here that do not need the user to be logged in for
       this.deck.cards = [
 
-        // new Card({
-        //   title: "Everyone's Games",
-        //   id: 'mapCard',
-        //   summaryViewType: "table",
-        //   summaryViewOptions: {
-        //     tooltipEnabled: true,
-        //     tablePageSize: 12,
-        //     pagination: false,
-        //     columnBreakpoint: 5,
-        //     numColumns: 3,
-        //     noDataMessage: "Looks like you have no games :(",
-        //     apiUrl: "/api/steam/myGames"
-        //   },
-        //   position: {
-        //     size_x: 1,
-        //     size_y: 2,
-        //     col: 3,
-        //     row: 1
-        //   }
-        // })
       ];
 
     }
-
-
 
     $onInit() {
       this.$http.get('/api/things')

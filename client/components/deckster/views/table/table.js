@@ -2,6 +2,9 @@
  * Created by omezu on 5/6/15.
  */
 ;
+
+'use strict';
+
 (function (root, factory) {
 
   if (typeof define === 'function' && define.amd) {
@@ -13,7 +16,7 @@
 }(window, function ($, Deckster) {
   Deckster.views = Deckster.views || {};
   var $tableElContainer;
-  var viewIdSuffix = "-table";
+  var viewIdSuffix = '-table';
 
   // View configuration for table
   Deckster.views.table = {
@@ -23,7 +26,6 @@
       card[currentView + 'TableId'] = card.options.id + currentView + viewIdSuffix;
       card[currentView + 'TablePaginationId'] = card.options.id + currentView + '-tablePagination';
 
-      console.log("looking to get current view options");
       var viewOptions = card.options.getCurrentViewOptions(currentView);
       var numColumns = viewOptions.numColumns; //must be an even number if transpose is true
 
@@ -48,10 +50,10 @@
       var viewOptions = card.options.getCurrentViewOptions(section);
 
       //Set card up for drilldown implementation
-      if (card.options.getCurrentViewType(section) === "drilldownView") {
-        var $drilldownEl = $('#' + card[section + "DrilldownViewId"]);
+      if (card.options.getCurrentViewType(section) === 'drilldownView') {
+        var $drilldownEl = $('#' + card[section + 'DrilldownViewId']);
         this.getContentHtml(card, function (tableHtml) {
-          $drilldownEl.append(tableHtml)
+          $drilldownEl.append(tableHtml);
         });
       }
 
@@ -60,13 +62,13 @@
       $tableElContainer = $tableEl.parents().eq(1);
 
       // If the table container exist initialize a table object
-      if ($tableEl.length != 0) {
+      if ($tableEl.length !== 0) {
 
         card.options.loadData(card, function () {
           var cardOptions = card.options.getCurrentViewOptions(card.currentSection);
 
           card[section + 'Table'] = $tableEl.bootstrapTable({
-            classes: "table table-hover" + (viewOptions.transpose ? " transposed" : ""),
+            classes: 'table table-hover' + (viewOptions.transpose ? ' transposed' : ''),
             pagination: viewOptions.pagination || true,
             //showHeader: viewOptions.transpose ? false : true,
             showHeader: viewOptions.showHeader ? true : false,
@@ -75,7 +77,7 @@
             pageList: viewOptions.transpose ? [] : [10, 25, 50, 100],
             height: $tableElContainer.height(),
             paginationVAlign: 'bottom',
-            noDataMessage: viewOptions.noDataMessage || "No data to display",
+            noDataMessage: viewOptions.noDataMessage || 'No data to display',
             reorderableColumns: true,
             queryParamsType: 'limit',
             ajaxOptions: {
@@ -180,7 +182,7 @@
     },
     resize: function (card, section) {
       if (card[section + 'Table']) {
-        card[section + 'Table'].bootstrapTable("resetView", {
+        card[section + 'Table'].bootstrapTable('resetView', {
           height: $tableElContainer.height()
         });
       }

@@ -8,8 +8,8 @@ angular.module('steamAppApp')
   .factory('DataManager', function ($http, $q, Formatters) {
 
     var DataManager = {};
-    DataManager.fiscalYearStart = new Date("4/4/2015"); // This needs to be pulled from a DB at some point.
-    DataManager.fiscalYearEnd = new Date("4/6/2016");
+    DataManager.fiscalYearStart = new Date('4/4/2015'); // TODO: This needs to be pulled from a DB at some point.
+    DataManager.fiscalYearEnd = new Date('4/6/2016');
     var dbColumnMetadata = null;
 
     DataManager.colorMap = {
@@ -21,7 +21,6 @@ angular.module('steamAppApp')
     };
 
     DataManager.query = function (queryParams) {
-      //console.log("dm query");
       var deferred = $q.defer();
 
       $http.post('/api/data/query/', queryParams).then(function (response) {
@@ -41,7 +40,6 @@ angular.module('steamAppApp')
     };
 
     DataManager.externalAPI = function (queryParams) {
-      //console.log("dm externalAPI");
       var deferred = $q.defer();
 
       $http.post('/api/data/externalAPI/', queryParams).then(function (response) {
@@ -53,7 +51,6 @@ angular.module('steamAppApp')
     };
 
     DataManager.transformDataForCard = function (data, cardType, cardOptions) {
-      //console.log("dm transformDataForCard");
       setDefaultTransformOptions(cardOptions);
       // TODO: after setting defaults this might be a good place for validating the dataTransform options of the card json
       var transform = cardOptions.customDataTransformer || dataTransformer[cardType];
@@ -61,7 +58,6 @@ angular.module('steamAppApp')
     };
 
     function setDefaultTransformOptions(options) {
-      //console.log("dm setDefaulttranform...");
       options.dataTransform = _.merge({}, options.dataTransform);
       options.dataTransform.titleFormats = _.merge({
         category: 'default',
@@ -107,7 +103,6 @@ angular.module('steamAppApp')
     // };
 
     DataManager.getLayerManagerClauses = function(layerManCol, layerManName){
-      //console.log("dm getLayer...");
       return {
         managerType: layerManCol,
         managerClause: layerManCol + " ~ '" + layerManName + "'",
@@ -127,7 +122,6 @@ angular.module('steamAppApp')
     };
 
     DataManager.loadSummaryBarData = function (deck, callback) {
-      //console.log("dm loadSummary...");
       if (deck.summaryBar.apiUrl) {
         var filters = deck.getSelectedFiltersJSON();
 
@@ -149,7 +143,6 @@ angular.module('steamAppApp')
     };
 
     DataManager.defaultLoadData = function (card, callback) {
-      console.log("dm defaultLoadData");
       card.showSpinner();
 
       // get current view metadata
@@ -157,7 +150,7 @@ angular.module('steamAppApp')
       var cardType = card.options.getCurrentViewType(card.currentSection);
 
       //Adjust some property locations if this is a drillable card
-      if (cardType === "drilldownView") {
+      if (cardType === 'drilldownView') {
         cardType = cardOptions.viewType;
       }
 
@@ -181,8 +174,6 @@ angular.module('steamAppApp')
       //}
 
       var loadData = function (data) {
-        console.log("dm loadData");
-
         var transformData = function (data) {
           data = DataManager.transformDataForCard(data, cardType, cardOptions);
           setSeriesColors(card, data.series);
@@ -224,12 +215,10 @@ angular.module('steamAppApp')
     };
 
     DataManager.defaultOnResize = function (card) {
-      console.log("dm defaultOnReize");
       card.resizeCardViews();
     };
 
     DataManager.defaultOnReload = function (card) {
-      console.log("dm defaultOnReload");
       var view = Deckster.views[card.options.getCurrentViewType(card.currentSection)];
       if (view.reload) {
         view.reload(card, card.currentSection);
@@ -237,7 +226,6 @@ angular.module('steamAppApp')
     };
 
     DataManager.getLastUpdated = function (card, callback) {
-      console.log("dm getLastUpdated");
       $http.post('/api/data/lastUpdated/', card.lastUpdated || {}).then(function (response) {
         var date = response.data;
         callback(date ? moment(date).toDate() : null);
@@ -345,7 +333,7 @@ angular.module('steamAppApp')
         return _.map([categoryData.indexOf(meanValue[dataTransform.nameColumn]), parseFloat(meanValue.mean)]);
       });
       return {
-        name: "Hourly Distribution By Week",
+        name: 'Hourly Distribution By Week',
         data: seriesData,
         categories: categoryData,
         mean: meanData
@@ -406,19 +394,14 @@ angular.module('steamAppApp')
       var series = [];
 
       var dataTransform = options.dataTransform;
-
-      if (dataTransform.emptyRow === true) {
-
-      }
-
+      
       // if first row is empty data, then delete it from consideration
       var firstRow = data[0];
       data = dataTransform.emptyRow ? data.slice(1) : data;
 
       // var categoryTitleFormatter = getDataFormatter(dataTransform.titleFormats.category);
       // var seriesTitleFormatter = getDataFormatter(dataTransform.titleFormats.series);
-
-
+      
       var nameColumn = dataTransform.nameColumn;
 
       if (dataTransform.row === 'series') {
@@ -427,7 +410,6 @@ angular.module('steamAppApp')
           return category;
         });
         _.forEach(data, function (obj) {
-          console.log(obj[dataTransform.nameColumn]);
           series.push({
             //name: seriesTitleFormatter(obj[dataTransform.nameColumn], dataTransform.titleFormats.series.format),
             name: obj[dataTransform.nameColumn],
@@ -438,8 +420,6 @@ angular.module('steamAppApp')
         console.log(data);
         categories = _.map(data, function (obj) {
           //return categoryTitleFormatter(obj[dataTransform.nameColumn], dataTransform.titleFormats.category.format);
-          console.log("objects:");
-          //console.log(obj);
           return obj[nameColumn];
         });
           _.forOwn(firstRow, function (value, key) {
@@ -520,7 +500,7 @@ angular.module('steamAppApp')
     }
 
     function getDataFormatter(format) {
-      console.log("dm getDataFormatter");
+      console.log('dm getDataFormatter');
       if (_.isEmpty(format)) {
         return Formatters.dataFormatter['default'];
       } else if (_.isString(format)) {
@@ -539,7 +519,7 @@ angular.module('steamAppApp')
      * @returns {{query: *, data: *}}
      */
     function percentageChartDataTransformer(data, options) {
-      console.log("dm percentageChart...");
+      console.log('dm percentageChart...');
       var dataTransform = options.dataTransform;
       var transformedData;
 

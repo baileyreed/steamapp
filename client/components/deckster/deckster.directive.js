@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('decksterjs', [])
 
 .factory('Deckster', function () {
@@ -6,13 +8,7 @@ angular.module('decksterjs', [])
   
 
 .directive('decksterDeck', function ($parse, $timeout) {
-
-  // $.getJSON('http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json', function(data) {
-  //   this.jsonData = data;
-  // });
-
-
-
+  
   var defaults = {
     gridsterOpts: {
       max_cols: 4,
@@ -27,12 +23,10 @@ angular.module('decksterjs', [])
     replace: true,
     templateUrl: 'components/deckster/decksterDeck.html',
     scope: {
-      deck: "=",
-      initialized: "="
+      deck: '=',
+      initialized: '='
     },
-    controller: function($scope, $rootScope) {
-      // this.getCurrentUser = $rootScope.getCurrentUser;
-
+    controller: function($scope) {
       $scope.deckInitialized = false;
 
       $scope.$on('deckster:resize', function () {
@@ -115,7 +109,7 @@ angular.module('decksterjs', [])
       };
 
       this.onReload = function (card) {
-        console.log('card reloaded', card)
+        console.log('card reloaded', card);
       };
 
       this.onResize = function (card) {
@@ -123,7 +117,7 @@ angular.module('decksterjs', [])
       };
 
       this.onExpand = function (card)  {
-        console.log("card expanded", card);
+        console.log('card expanded', card);
       };
 
       this.scrollToCard = function () {
@@ -179,7 +173,7 @@ angular.module('decksterjs', [])
         }
       });
     }
-  }
+  };
 })
 
     //deckster popout

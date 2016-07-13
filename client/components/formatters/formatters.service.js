@@ -47,7 +47,7 @@ angular.module('steamAppApp')
     function titleKeepSymbolsFormatter (val) {
       return _.map(_.words(val, /[^\s_]+/g), function(word){
         return _.capitalize(word);
-      }).join(" ");
+      }).join(' ');
     }
 
     // Used to format name values
@@ -58,7 +58,7 @@ angular.module('steamAppApp')
       if (unformat){
         if (val && val.match(/\s/g)) {
           parts = val.split(' ');
-          return (parts[1].trim() + ", " + parts[0].trim()).toLowerCase();
+          return (parts[1].trim() + ', ' + parts[0].trim()).toLowerCase();
         } else {
           return val.toLowerCase();
         }

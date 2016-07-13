@@ -2,7 +2,11 @@
  * Created by breed on 7/8/16.
  */
 
-;(function (root, factory) {
+;
+
+'use strict';
+
+(function (root, factory) {
 
   if (typeof define === 'function' && define.amd) {
     define(['jquery', 'deckster'], factory);
@@ -13,9 +17,9 @@
 }(window, function($, Deckster){
   Deckster.views = Deckster.views || {};
 
-  var viewIdSuffix = "-bar-chart";
-  var chartSuffix = "BarChart";
-  var chartIdSuffix = chartSuffix + "Id";
+  var viewIdSuffix = '-bar-chart';
+  var chartSuffix = 'BarChart';
+  var chartIdSuffix = chartSuffix + 'Id';
 
   // View configuration for barChart
   Deckster.views.barChart = {
@@ -33,7 +37,7 @@
       var $chartEl = $('#' + card[section + chartIdSuffix]);
 
       // If the chart container exist initialize a chart object
-      if($chartEl.length != 0) {
+      if($chartEl.length !== 0) {
         if (card[section + chartSuffix]) {
           card[section + chartSuffix].destroy();
           card[section + chartSuffix] = null;
@@ -50,17 +54,17 @@
       var viewOptions = card.options.getCurrentViewOptions(section);
 
       //Set card up for drilldown implementation
-      if(card.options.getCurrentViewType(section) === "drilldownView") {
-        var $drilldownEl = $('#' + card[section + "DrilldownViewId"]);
+      if(card.options.getCurrentViewType(section) === 'drilldownView') {
+        var $drilldownEl = $('#' + card[section + 'DrilldownViewId']);
         this.getContentHtml(card, function(tableHtml) {
-          $drilldownEl.append(tableHtml)
-        })
+          $drilldownEl.append(tableHtml);
+        });
       }
 
       var $chartEl = $('#' + card[section + chartIdSuffix]);
 
       // If the chart container exist initialize a chart object
-      if($chartEl.length != 0) {
+      if($chartEl.length !== 0) {
         card.options.loadData(card, function(series) {
 
           // Destroy previously created chart
@@ -115,7 +119,7 @@
               },
               plotLines: viewOptions.yAxisPlotLines || [],
               labels: {
-                formatter: (viewOptions.yAxisFormatter && viewOptions.yAxisFormatter.bind(card)) || function() { return this.value }
+                formatter: (viewOptions.yAxisFormatter && viewOptions.yAxisFormatter.bind(card)) || function() { return this.value; }
               }
             },
             tooltip: {

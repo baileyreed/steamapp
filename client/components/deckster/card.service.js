@@ -25,13 +25,11 @@ angular.module('steamAppApp')
       var cardOptions = card.options.getCurrentViewOptions(card.currentSection);
       var cardType = card.options.getCurrentViewType(card.currentSection);
 
-      if (cardType === "drilldownView") {
+      if (cardType === 'drilldownView') {
         cardType = cardOptions.viewType;
       }
 
       var loadData = function (data) {
-        console.log("here's some data");
-        console.log(data);
         var transformData = function (data) {
           data = DataManager.transformDataForCard(data, cardType, cardOptions);
           // setSeriesColors(card, data.series);
@@ -86,7 +84,7 @@ angular.module('steamAppApp')
      */
     Card.prototype.getCurrentViewOptions = function (section) {
       var viewOptions = this[section + 'ViewOptions'];
-      if (this.getCurrentViewType(section) === "drilldownView") {
+      if (this.getCurrentViewType(section) === 'drilldownView') {
         return viewOptions.views[viewOptions.activeView];
       } else {
         return viewOptions;
@@ -131,7 +129,7 @@ angular.module('steamAppApp')
     function titleKeepSymbolsFormatter (val) {
       return _.map(_.words(val, /[^\s_]+/g), function(word){
         return _.capitalize(word);
-      }).join(" ");
+      }).join(' ');
     }
 
     // Used to format name values
@@ -142,7 +140,7 @@ angular.module('steamAppApp')
       if (unformat){
         if (val && val.match(/\s/g)) {
           parts = val.split(' ');
-          return (parts[1].trim() + ", " + parts[0].trim()).toLowerCase();
+          return (parts[1].trim() + ', ' + parts[0].trim()).toLowerCase();
         } else {
           return val.toLowerCase();
         }
