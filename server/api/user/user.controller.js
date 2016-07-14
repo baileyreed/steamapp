@@ -5,6 +5,11 @@ import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 
+export const AnotherController = ($scope, $http) => {
+  // functionality...
+};
+
+
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
@@ -104,16 +109,17 @@ export function changePassword(req, res, next) {
 }
 
 export function changeSteam(req, res, next) {
-  console.log("here we are in changeSteam!");
-  console.log(req.body.steamId);
   var userId = req.user._id;
-  var newSteam = String(req.body.steamId);
+  var newSteam = String(req.body.steamId) ? String(req.body.steamId) : String(req.body.steamUrl);
+
+  console.log("new steam");
+  console.log(newSteam);
 
   return User.findById(userId).exec()
     .then(user => {
       console.log("here we are in user!");
       user.steamId = newSteam;
-      console.log(user.steamId);
+
       return user.save()
         .then(() => {
           res.status(204).end();

@@ -21,6 +21,8 @@ var config = require('../../config/environment/index');
 
 var apiKey = config.steam.apiKey;
 
+
+
 /**
  * Returns recent playtimes for the user and friends in the following format:
  * [{game: "game1", "Jane": 1, "Bob": 2, "John": 3},
@@ -128,12 +130,18 @@ export function friendsGamesChart(req, res) {
  * @param res
  */
 export function getSteamId(req, res) {
-  client.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=" + apiKey + "&vanityurl=" + req.user.steamId, function (data, response) {
+  console.log("in steam controller");
+  console.log(req.user.steamId);
+  client.get('http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=' + apiKey + '&vanityurl=' + req.user.steamId, function (data, response) {
     data = _.get(data, 'response', {});
+    console.log(data);
     if (data.success != 1) {
       res.json({'msg': 'Error: steamId not found'})
     } else {
-      res.json({'steamId': data.steamId});
+      console.log("success: founds team id");
+      console.log(data.steamid);
+      //res.json({'steamId': data.steamId});
+      res.json({steamId: data.steamid});
     }
   })
 }
@@ -145,7 +153,7 @@ export function getSteamId(req, res) {
  */
 export function news(req, res) {
   if (!req.user.steamId) { // if steam profile has not been added
-    res.json({rows: [{"":"", " ":"", "  ": ""}]});
+    res.json({rows: [{'':'', ' ':'', '  ': ''}]});
     return;
   }
 

@@ -20,11 +20,10 @@
             ID must be 17-digit number</p>
         </div>
 
-        <p>This doesn't really work yet:</p>
         <div class="form-group">
           <label>Your Steam Custom URL</label>
-          <p style="color:gray">Ex: http://steamcommunity.com/id/c00lgamer123</p>
-          <input type="url" name="steamUrl" class="form-control" ng-model="vm.user.steamUrl" ng-required="!(vm.user.steamId.length || vm.user.steamUrl.length)" value="http://steamcommunity.com/id/"/>
+          <p style="color:gray" d>Ex: http://steamcommunity.com/id/c00lgamer123</p>
+          http://steamcommunity.com/id/<input style="display:inline-block;width:942px" class="form-control" name="steamUrl" ng-model="vm.user.steamUrl" ng-required="!(vm.user.steamId.length || vm.user.steamUrl.length)"  />
         </div>
 
         <p class="help-block" style="color:red" ng-show="(form.steamId.$error.minlength || form.steamId.$error.maxlength || form.steamId.$error.required) && (form.steamId.$dirty || vm.submitted)" >
